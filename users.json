@@ -1,16 +1,1 @@
-{
-  "users": [
-    {
-      "id": 1,
-      "username": "Johan Liebert",
-      "email": "liebert@mail.edu",
-      "password": "johan-chan"
-    },
-    {
-      "id": 2,
-      "username": "Erwin Schrodinger",
-      "email": "Schrodinger@mail.edu",
-      "password": "ilovmycat"
-    }
-  ]
-}
+{"Users":[{"Id":1,"Username":"Johan Liebert","Email":"liebert@mail.edu","Password":"johan-chan"},{"Id":2,"Username":"Erwin Schrodinger","Email":"Schrodinger@mail.edu","Password":"ilovmycat"},{"Id":3,"Username":"shinigami","Email":"shinoa@mail.edu","Password":"test"}]}
