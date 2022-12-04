@@ -63,7 +63,7 @@ func (users *Users) readUserById(id int) User  {
 }
 
 func main() {
-	types := flag.String("type", "empty", "available type: create | read | update | delete")
+	types := flag.String("type", "empty", "available type: create | readByID | readAll | update | delete")
 	file, err := os.ReadFile("./users.json")
 	flag.Parse()	
 
