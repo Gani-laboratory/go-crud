@@ -62,7 +62,15 @@ func main() {
 				return
 			}
 			break
-		case "read":
+		case "readByID":
+			break
+		case "readAll":
+			for _, v := range users.Users {
+				println("ID: ", v.Id)
+				println("Username: ", v.Username)
+				println("Email: ", v.Email)
+				println("Password: ", v.Password, "\n")
+			}
 			break
 		case "update":
 			break
