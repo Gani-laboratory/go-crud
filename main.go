@@ -18,8 +18,18 @@ type Users struct {
 	Users []User
 }
 
-func (users *Users) AddUsers(user User) []User  {
+func (users *Users) AddUser(user User) []User  {
 	users.Users = append(users.Users, user)
+	return users.Users
+}
+
+func (users *Users) deleteUser(id int) []User  {
+	for i, user := range users.Users {
+		if user.Id == id {
+			users.Users = append(users.Users[:i], users.Users[i+1:]...)
+			break
+		}
+	}
 	return users.Users
 }
 
@@ -54,7 +64,7 @@ func main() {
 			newUser.Username = username
 			newUser.Email = email
 			newUser.Password = password
-			users.AddUsers(newUser)
+			users.AddUser(newUser)
 			appendUser,_ := json.Marshal(users)
 			err := os.WriteFile("./users.json", []byte(appendUser), 0666)
 			if err != nil {
@@ -65,16 +75,26 @@ func main() {
 		case "readByID":
 			break
 		case "readAll":
-			for _, v := range users.Users {
-				println("ID: ", v.Id)
-				println("Username: ", v.Username)
-				println("Email: ", v.Email)
-				println("Password: ", v.Password, "\n")
+			for _, user := range users.Users {
+				println("ID: ", user.Id)
+				println("Username: ", user.Username)
+				println("Email: ", user.Email)
+				println("Password: ", user.Password, "\n")
 			}
 			break
 		case "update":
 			break
 		case "delete":
+			var id int
+			fmt.Print("ID: ")
+			fmt.Scanln(&id)
+			users.deleteUser(id)
+			deleteUser,_ := json.Marshal(users)
+			err := os.WriteFile("./users.json", []byte(deleteUser), 0666)
+			if err != nil {
+				log.Fatal("Some Error Occured!")
+				return
+			}
 			break
 		default:
 			log.Fatal("Error: Option are not available")
