@@ -33,6 +33,24 @@ func (users *Users) deleteUser(id int) []User  {
 	return users.Users
 }
 
+func (users *Users) updateUser(id int, updatedUser User) []User  {
+	for i, user := range users.Users {
+		if user.Id == id {
+			if len(updatedUser.Username) != 0 {
+				users.Users[i].Username = updatedUser.Username
+			}
+			if len(updatedUser.Email) != 0 {
+				users.Users[i].Email = updatedUser.Email
+			}
+			if len(updatedUser.Password) != 0 {
+				users.Users[i].Password = updatedUser.Password
+			}
+			break
+		}
+	}
+	return users.Users
+}
+
 func (users *Users) readUserById(id int) User  {
 	var index int
 	for i, user := range users.Users {
@@ -101,6 +119,26 @@ func main() {
 			}
 			break
 		case "update":
+			var updateUser User
+			var id int
+			fmt.Print("ID: ")
+			fmt.Scanln(&id)
+			fmt.Print("Username: ")
+			fmt.Scanln(&username)
+			fmt.Print("Email: ")
+			fmt.Scanln(&email)
+			fmt.Print("Password: ")
+			fmt.Scanln(&password)
+			updateUser.Username = username
+			updateUser.Email = email
+			updateUser.Password = password
+			users.updateUser(id, updateUser)
+			updatedUser,_ := json.Marshal(users)
+			err := os.WriteFile("./users.json", []byte(updatedUser), 0666)
+			if err != nil {
+				log.Fatal("Some Error Occured!")
+				return
+			}
 			break
 		case "delete":
 			var id int
