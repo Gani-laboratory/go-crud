@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Johan Liebert",
+      "email": "liebert@mail.edu",
+      "password": "johan-chan"
+    },
+    {
+      "id": 2,
+      "username": "Erwin Schrodinger",
+      "email": "Schrodinger@mail.edu",
+      "password": "ilovmycat"
+    }
+  ]
+}
