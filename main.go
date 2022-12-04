@@ -33,6 +33,17 @@ func (users *Users) deleteUser(id int) []User  {
 	return users.Users
 }
 
+func (users *Users) readUserById(id int) User  {
+	var index int
+	for i, user := range users.Users {
+		if user.Id == id {
+			index = i
+			break
+		}
+	}
+	return users.Users[index]
+}
+
 func main() {
 	types := flag.String("type", "empty", "available type: create | read | update | delete")
 	file, err := os.ReadFile("./users.json")
@@ -73,6 +84,13 @@ func main() {
 			}
 			break
 		case "readByID":
+			var id int
+			fmt.Print("ID: ")
+			fmt.Scanln(&id)
+			user := users.readUserById(id)
+			println("Username: ", user.Username)
+			println("Email: ", user.Email)
+			println("Password: ", user.Password)
 			break
 		case "readAll":
 			for _, user := range users.Users {
