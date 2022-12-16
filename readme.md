@@ -1,1 +1,1 @@
-# Simple Go-lang Crud with Dummies Data
+# Simple Go-lang crud in order to learn golang
