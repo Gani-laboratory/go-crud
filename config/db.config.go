@@ -1,60 +1,41 @@
 package config
 
 import (
-	"database/sql"
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/Gani-laboratory/go-crud/entities"
 	"github.com/joho/godotenv" // package yang dipakai untuk membaca file .env
 	_ "github.com/lib/pq"      // postgres golang driver
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
+var PostgresInstance *gorm.DB
+
 // kita buat koneksi dgn db posgres
-func CreateConnection() *sql.DB {
+func CreateConnection() {
 	// load .env file
 	err := godotenv.Load(".env")
+	
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
 
-	// Kita buka koneksi ke db
-	db, err := sql.Open("postgres", os.Getenv("POSTGRES_URI"))
-
-	if err != nil {
-		panic(err)
-	}
-
+	// Membuat koneksi ke database
+	PostgresInstance, err = gorm.Open(postgres.Open(fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v", os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"), os.Getenv("SSL_MODE"))), &gorm.Config{})
 	// check the connection
-	err = db.Ping()
-
-	if err != nil {
-		panic(err)
-	}
+  if err != nil {
+    panic("Gagal terhubung ke database")
+  }
 
 	fmt.Println("Sukses Konek ke Db!")
-	// return the connection
-	return db
 }
 
-type NullString struct {
-	sql.NullString
+func Migrate(){	
+	PostgresInstance.AutoMigrate(&entities.Todo{})
+	log.Println("Database Migration Completed...")
 }
 
-func (s NullString) MarshalJSON() ([]byte, error) {
-	if !s.Valid {
-		return []byte("null"), nil
-	}
-	return json.Marshal(s.String)
-}
-
-func (s *NullString) UnmarshalJSON(data []byte) error {
-	if string(data) == "null" {
-		s.String, s.Valid = "", false
-		return nil
-	}
-	s.String, s.Valid = string(data), true
-	return nil
-}
