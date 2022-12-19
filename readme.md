@@ -10,7 +10,7 @@ What's New?
   - Simple way to check rows affected 😼
   - No more iteration once loop todo for find all todos
   
-  #### Refactor software architecture
+  #### Refactor application architecture
   - Clean structure file
 
 - [V1](https://afrizalmy.com/membuat-crud-golang-rest-api-dengan-postgresql)
